@@ -1,0 +1,11 @@
+{
+  "name": "plst-books-test-api",
+  "version": "1.0.0",
+  "description": "Code along project for pluralsight's 'RESTful Web Services with Node.js and Express' course",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Eric Njogu",
+  "license": "ISC"
+}
