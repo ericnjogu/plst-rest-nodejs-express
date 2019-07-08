@@ -4,6 +4,7 @@
   "description": "Code along project for pluralsight's 'RESTful Web Services with Node.js and Express' course",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eric Njogu",
@@ -12,6 +13,8 @@
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "eslint": "^6.0.1"
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.2.0",
+    "eslint-plugin-import": "^2.18.0"
   }
 }
