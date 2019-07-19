@@ -1,7 +1,6 @@
 const express = require('express');
-const Book = require('../models/Book');
 
-function router() {
+function router(Book) {
   const booksPath = '/books';
   const bookRouter = express.Router();
   bookRouter.route(booksPath)

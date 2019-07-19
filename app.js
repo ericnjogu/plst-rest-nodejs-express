@@ -12,7 +12,7 @@ const Book = require('./models/Book');
 app.use(body_parser.urlencoded({extended:true}));
 app.use(body_parser.json());
 
-const bookRouter = require('./routes/books-router')();
+const bookRouter = require('./routes/books-router')(Book);
 app.use(bookRouter);
 
 app.get('/', (request, response) => {
