@@ -1,12 +1,18 @@
 const express = require('express');
+const mongoose = require('mongoose');
+
 const app = express();
 const bookRouter = express.Router();
 const port = process.env.PORT || 3000;
 const booksPath = '/books';
+// resolved url parsing error messages by following https://stackoverflow.com/a/51935257/315385
+const db = mongoose.connect('mongodb://localhost:27017/book_api', {useNewUrlParser:true});
+const Book = require('./models/Book');
 
 bookRouter.route(booksPath).get((req, resp) => {
-  const obj = {msg:'from the /books route'};
-  resp.json(obj);
+  Book.find((err, books) => {
+    return err ? resp.send(err) : resp.json(books);
+  })
 })
 
 app.use(bookRouter);
