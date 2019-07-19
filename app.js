@@ -16,10 +16,10 @@ bookRouter.route(booksPath).get((req, resp) => {
       (prop) => (req.query[prop]))
     .map(
     (prop) => {
-        valid_query[prop] = req.query[prop]
+        valid_query[prop] = {$regex:req.query[prop], $options:'i'}
     }
   );
-  console.log(valid_query);
+  //console.log(valid_query);
   Book.find(valid_query, (err, books) => {
     return err ? resp.send(err) : resp.json(books);
   })
