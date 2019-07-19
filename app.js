@@ -10,7 +10,8 @@ const db = mongoose.connect('mongodb://localhost:27017/book_api', {useNewUrlPars
 const Book = require('./models/Book');
 
 bookRouter.route(booksPath).get((req, resp) => {
-  Book.find((err, books) => {
+  const {query} = req;
+  Book.find(query, (err, books) => {
     return err ? resp.send(err) : resp.json(books);
   })
 })
