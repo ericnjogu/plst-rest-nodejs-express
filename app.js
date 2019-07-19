@@ -23,9 +23,20 @@ bookRouter.route(booksPath).get((req, resp) => {
   Book.find(valid_query, (err, books) => {
     return err ? resp.send(err) : resp.json(books);
   })
+});
+
+const path_book_id = '/books/:id';
+const bookIdRouter = express.Router();
+bookIdRouter.route(path_book_id).get((req, resp) => {
+  //console.log(`finding by id ${req.params.id}`);
+  Book.findById(req.params.id, (err, book) => {
+      return err ? resp.send(err) : resp.json(book);
+    }
+  )
 })
 
 app.use(bookRouter);
+app.use(bookIdRouter);
 
 app.get('/', (request, response) => {
   response.send('Welcome to Embakasi, Sir!');
