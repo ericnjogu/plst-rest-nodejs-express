@@ -1,5 +1,24 @@
 const express = require('express');
 
+/**
+* function to iterate through an object that contains book properties then
+* uses a call back function to make an callback for each existing property in the source
+* @param {Object} schema - object schema
+* @param {Object} source - source object to iterate through
+* @callback {callback} - function called with discovered property name and value
+*/
+function discoverSchemaProps(schema, source, callback) {
+  Object.keys(Book.schema.obj)
+    .filter(
+      // drop props that are not defined in the source
+      (prop) => (source[prop]))
+    .map(
+    (prop) => {
+        callback(prop, source[prop]);
+    }
+  );
+}
+
 function router(Book) {
   const booksPath = '/books';
   const bookRouter = express.Router();
@@ -27,15 +46,16 @@ function router(Book) {
   });
 
   const path_book_id = '/books/:id';
-  bookRouter.route(path_book_id).get((req, resp) => {
-    //console.log(`finding by id ${req.params.id}`);
-    Book.findById(req.params.id, (err, book) => {
-        return err ? resp.send(err) : resp.json(book);
-      }
-    )
-  })
+  bookRouter.route(path_book_id)
+    .get((req, resp) => {
+      //console.log(`finding by id ${req.params.id}`);
+      Book.findById(req.params.id, (err, book) => {
+          return err ? resp.send(err) : resp.json(book);
+        }
+      )
+    })
 
   return bookRouter;
 }
 
-module.exports = router;
+module.exports = {router, discoverSchemaProps};
