@@ -31,14 +31,10 @@ function router(Book) {
     })
     .get((req, resp) => {
       let valid_query = {}
-      Object.keys(Book.schema.obj)
-        .filter(
-          (prop) => (req.query[prop]))
-        .map(
-        (prop) => {
-            valid_query[prop] = {$regex:req.query[prop], $options:'i'}
-        }
-      );
+      discoverSchemaProps(Book.schema.obj, req.query, (key, value) => {
+        valid_query[key] = {$regex:value, $options:'i'}
+      });
+      
       //console.log(valid_query);
       Book.find(valid_query, (err, books) => {
         return err ? resp.send(err) : resp.json(books);
