@@ -1,5 +1,5 @@
 const bookRouter = require('./books-router');
-const Book = require('../models/Book');
+const book_schema = require('../models/Book').schema;
 
 test('update func is called with correct source value', done => {
   function callback(key, value) {
@@ -8,5 +8,5 @@ test('update func is called with correct source value', done => {
     done();
   }
 
-  bookRouter.discoverSchemaProps(Book.schema.obj, {author: 'Mimi'}, callback);
+  bookRouter.discoverSchemaProps(book_schema, {author: 'Mimi'}, callback);
 });

@@ -8,7 +8,7 @@ const express = require('express');
 * @callback {callback} - function called with discovered property name and value
 */
 function discoverSchemaProps(schema, source, callback) {
-  Object.keys(Book.schema.obj)
+  Object.keys(schema)
     .filter(
       // drop props that are not defined in the source
       (prop) => (source[prop]))
