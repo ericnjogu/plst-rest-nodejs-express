@@ -7,7 +7,7 @@ const port = process.env.PORT || 3000;
 
 // resolved url parsing error messages by following https://stackoverflow.com/a/51935257/315385
 const db = mongoose.connect('mongodb://localhost:27017/book_api', {useNewUrlParser:true});
-const Book = require('./models/Book');
+const Book = require('./models/Book').instance;
 
 app.use(body_parser.urlencoded({extended:true}));
 app.use(body_parser.json());
