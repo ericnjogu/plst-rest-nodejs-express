@@ -1,22 +1,19 @@
 const express = require('express');
 
 /**
-* function to iterate through an object that contains book properties then
-* uses a call back function to make an callback for each existing property in the source
+* function that creates a  generator that iterates through an object that contains the specified properties
 * @param {Object} schema - object schema
 * @param {Object} source - source object to iterate through
 * @callback {callback} - function called with discovered property name and value
 */
-function discoverSchemaProps(schema, source, callback) {
-  Object.keys(schema)
-    .filter(
-      // drop props that are not defined in the source
-      (prop) => (source[prop]))
-    .map(
-    (prop) => {
-        callback(prop, source[prop]);
-    }
-  );
+function* discoverSchemaProps(schema, source) {
+  const keys = Object.keys(schema);
+  while (keys.length) {
+    key = keys.shift();
+    yield new Promise((resolve, reject) => {
+      source[key] ? resolve(key, source[key]) : reject(key);
+    });
+  }
 }
 
 function router(Book) {
@@ -30,15 +27,21 @@ function router(Book) {
       return resp.status(201).send(new_book);
     })
     .get((req, resp) => {
-      let valid_query = {}
-      discoverSchemaProps(Book.schema.obj, req.query, (key, value) => {
-        valid_query[key] = {$regex:value, $options:'i'}
-      });
-      
+      let valid_query = {};
+      const generator =  discoverSchemaProps(Book.schema.obj, {author: 'Mimi'});
+      let looping = true;
+      while (looping) {
+        const {value_promise, done} = generator.next();
+        looping = !done;
+        value_promise ? value_promise.then((key, value) => {
+          valid_query[key] = {$regex:value, $options:'i'}
+        }) : () => {};
+      }
+
       //console.log(valid_query);
       Book.find(valid_query, (err, books) => {
         return err ? resp.send(err) : resp.json(books);
-      })
+      });
   });
 
   const path_book_id = '/books/:id';
