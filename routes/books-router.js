@@ -7,11 +7,11 @@ const express = require('express');
 * @callback {callback} - function called with discovered property name and value
 */
 function* discoverSchemaProps(schema, source) {
-  const keys = Object.keys(schema);
+  const keys = Object.keys(source);
   while (keys.length) {
     key = keys.shift();
     yield new Promise((resolve, reject) => {
-      source[key] ? resolve(key, source[key]) : reject(key);
+      schema[key] ? resolve(key, source[key]) : reject(key);
     });
   }
 }
