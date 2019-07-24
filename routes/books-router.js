@@ -2,6 +2,7 @@ const express = require('express');
 
 /**
 * function that creates a  generator that iterates through an object that contains the specified properties
+* inspired by https://www.codementor.io/tiagolopesferreira/asynchronous-iterators-in-javascript-jl1yg8la1
 * @param {Object} schema - object schema
 * @param {Object} source - source object to iterate through
 * @callback {callback} - function called with discovered property name and value
