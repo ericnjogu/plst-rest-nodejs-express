@@ -14,7 +14,7 @@ test('update func is called with correct source value', () => {
   }
 });
 
-test('update func should not be called for non existent props', done => {
+test('update func should not be called for non existent props', () => {
   const generator =  bookRouter.discoverSchemaProps(book_schema, {foofoo: 'Bibi'});
   let looping = true;
   while (looping) {
@@ -24,7 +24,7 @@ test('update func should not be called for non existent props', done => {
       value_promise.then(
         (key, value) => {
           fail(`Should not be discovered: ${key}:${value}`);
-        },
+        }).catch(
         (key) => {expect(key).toBe('foofoo');}
       );
     }
