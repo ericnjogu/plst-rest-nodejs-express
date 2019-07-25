@@ -4,8 +4,7 @@ const book_schema = require('../models/Book').schema;
 * function that iterates through an object that contains the specified schema properties
 * @param {Object} schema - object schema
 * @param {Object} source - source object to iterate through
-* @callback {callback} - function called with discovered property name, value and whether it is defined in the schema
-@ @return {Object} -  a promise
+* @callback {callback} - function called with discovered property name, source value and schema value
 */
 function discoverSchemaProps(schema, source, callback) {
   Object.keys(source).map(key => {
