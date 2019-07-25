@@ -47,8 +47,12 @@ function router(Book) {
         if (err) {
           return resp.send(err);
         } else {
-          req.book = book;
-          return next();
+          if (book) {
+            req.book = book;
+            return next();
+          } else {
+            return resp.sendStatus(404);
+          }
         }
     })
   });
