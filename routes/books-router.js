@@ -65,6 +65,15 @@ function router(Book) {
       book.save();
       resp.json(book);
     })
+    .patch((req, resp) => {
+      const {body} = req;
+      const {book} = req;
+      discoverSchemaProps(book_schema, body, (key, value_in_body, value_in_schema) => {
+            if (key !== '_id') {book[key] = value_in_body;}
+      });
+      book.save();
+      resp.json(book);
+    })
 
   return bookRouter;
 }
