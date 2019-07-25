@@ -9,7 +9,7 @@ const book_schema = require('../models/Book').schema;
 */
 function discoverSchemaProps(schema, source, callback) {
   Object.keys(source).map(key => {
-         callback(key, source[key], schema[key]);
+        callback(key, source[key], schema[key]);
     }
   );
 }
@@ -47,6 +47,21 @@ function router(Book) {
       //console.log(`finding by id ${req.params.id}`);
       Book.findById(req.params.id, (err, book) => {
           return err ? resp.send(err) : resp.json(book);
+        }
+      )
+    }).put((req, resp) => {
+      Book.findById(req.params.id, (err, book) => {
+          if (err) {
+            resp.send(err);
+          } else {
+            const {body} = req;
+            // switching the request body to be the source
+            discoverSchemaProps(body, book_schema, (key, value_in_schema, value_in_body) => {
+                  book[key] = value_in_body;
+            });
+            book.save();
+            resp.json(book);
+          }
         }
       )
     })
