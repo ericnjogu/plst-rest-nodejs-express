@@ -42,28 +42,29 @@ function router(Book) {
   });
 
   const path_book_id = '/books/:id';
+  // middleware to handle common code in processing this path
+  bookRouter.use(path_book_id, (req, resp, next) => {
+    Book.findById(req.params.id, (err, book) => {
+        if (err) {
+          return resp.send(err);
+        } else {
+          req.book = book;
+          return next();
+        }
+    })
+  });
+
   bookRouter.route(path_book_id)
-    .get((req, resp) => {
-      //console.log(`finding by id ${req.params.id}`);
-      Book.findById(req.params.id, (err, book) => {
-          return err ? resp.send(err) : resp.json(book);
-        }
-      )
-    }).put((req, resp) => {
-      Book.findById(req.params.id, (err, book) => {
-          if (err) {
-            resp.send(err);
-          } else {
-            const {body} = req;
-            // switching the request body to be the source
-            discoverSchemaProps(body, book_schema, (key, value_in_schema, value_in_body) => {
-                  book[key] = value_in_body;
-            });
-            book.save();
-            resp.json(book);
-          }
-        }
-      )
+    .get((req, resp) => resp.json(req.book))
+    .put((req, resp) => {
+      const {body} = req;
+      const {book} = req;
+      // switching the request body to be the source
+      discoverSchemaProps(body, book_schema, (key, value_in_schema, value_in_body) => {
+            book[key] = value_in_body;
+      });
+      book.save();
+      resp.json(book);
     })
 
   return bookRouter;
