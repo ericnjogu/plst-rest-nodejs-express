@@ -74,6 +74,11 @@ function router(Book) {
       book.save();
       resp.json(book);
     })
+    .delete((req, resp) => {
+      req.book.remove(err => {
+        return err ? resp.status(500).send(err) : resp.sendStatus(204);
+      })
+    })
 
   return bookRouter;
 }
