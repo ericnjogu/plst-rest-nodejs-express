@@ -8,6 +8,9 @@ function books_controller(Book) {
       resp.send('The title is missing');
     }
     const new_book = new Book(req.body);
+    if (new_book.author === 'Mugo Wa Njogu') {
+      new_book.read = true;
+    }
     new_book.save();
     resp.status(201);
     return resp.send(new_book);
