@@ -1,4 +1,4 @@
-const bookRouter = require('./books-router');
+const utils = require('../utils');
 const book_schema = require('../models/Book').schema;
 
 test('update func is called with correct source value', done => {
@@ -9,7 +9,7 @@ test('update func is called with correct source value', done => {
       done();
   }
 
-  bookRouter.discoverSchemaProps(book_schema, {author: 'Mimi'}, callback);
+  utils.discoverSchemaProps(book_schema, {author: 'Mimi'}, callback);
 });
 
 test('update func should not be called for non existent props', done => {
@@ -20,5 +20,5 @@ test('update func should not be called for non existent props', done => {
       done();
   }
 
-  bookRouter.discoverSchemaProps(book_schema, {foofoo: 'Bibi'}, callback);
+  utils.discoverSchemaProps(book_schema, {foofoo: 'Bibi'}, callback);
 });
