@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "start": "nodemon app.js",
-    "test": "jest"
+    "test": "mocha tests/**/*test.js"
   },
   "author": "Eric Njogu",
   "license": "ISC",
