@@ -9,7 +9,7 @@ if (process.env.ENV === 'test') {
   const db = mongoose.connect('mongodb://localhost:27017/book_api_test', {useNewUrlParser:true});
 } else {
   // resolved url parsing error messages by following https://stackoverflow.com/a/51935257/315385
-  const db = mongoose.connect('mongodb://localhost:27017/book_api', {useNewUrlParser:true});
+  const db = mongoose.connect('mongodb://localhost:27017/book_api_dev', {useNewUrlParser:true});
 }
 const Book = require('./models/Book').instance;
 
