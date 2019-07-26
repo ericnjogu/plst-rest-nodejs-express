@@ -29,7 +29,17 @@ function books_controller(Book) {
 
     // console.log(valid_query);
     Book.find(valid_query, (err, books) => {
-      return err ? resp.send(err) : resp.json(books);
+      if (err) {
+        return resp.send(err);
+      } else {
+        books_with_links = books.map(book => {
+          let new_book = book.toJSON();
+          new_book.links = {};
+          new_book.links.self = `http://${req.headers.host}/books/${new_book._id}`;
+          return new_book;
+        });
+        resp.json(books_with_links);
+      }
     });
   };
 
