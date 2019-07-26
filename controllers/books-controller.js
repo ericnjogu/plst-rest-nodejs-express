@@ -6,7 +6,8 @@ function books_controller(Book) {
     const new_book = new Book(req.body);
     console.log(`posted book ${new_book}`);
     new_book.save();
-    return resp.status(201).send(new_book);
+    resp.status(201)
+    return resp.send(new_book);
   };
 
   const get_all_matching = (req, resp) => {
