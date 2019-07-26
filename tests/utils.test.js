@@ -1,24 +1,27 @@
 const utils = require('../utils');
 const book_schema = require('../models/Book').schema;
+const assert = require('assert');
 
-test('update func is called with correct source value', done => {
-  function callback(key, value, defined_in_schema) {
-      expect(key).toBe('author');
-      expect(value).toBe('Mimi');
-      expect(defined_in_schema).not.toBe(undefined);
-      done();
-  }
+describe("testing discoverSchemaProps", () => {
+  it('update func is called with correct source value', done => {
+    function callback(key, value, defined_in_schema) {
+        assert(key, 'author');
+        assert(value, 'Mimi');
+        assert.notEqual(defined_in_schema, undefined);
+        done();
+    }
 
-  utils.discoverSchemaProps(book_schema, {author: 'Mimi'}, callback);
-});
+    utils.discoverSchemaProps(book_schema, {author: 'Mimi'}, callback);
+  });
 
-test('update func should not be called for non existent props', done => {
-  function callback(key, value, defined_in_schema) {
-      expect(key).toBe('foofoo');
-      expect(value).toBe('Bibi');
-      expect(defined_in_schema).toBe(undefined);
-      done();
-  }
+  it('update func should not be called for non existent props', done => {
+    function callback(key, value, defined_in_schema) {
+        assert(key, 'foofoo');
+        assert(value, 'Bibi');
+        assert.equal(defined_in_schema, undefined);
+        done();
+    }
 
-  utils.discoverSchemaProps(book_schema, {foofoo: 'Bibi'}, callback);
+    utils.discoverSchemaProps(book_schema, {foofoo: 'Bibi'}, callback);
+  });
 });
