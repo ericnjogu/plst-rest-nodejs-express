@@ -43,7 +43,14 @@ function books_controller(Book) {
     });
   };
 
-  const get_by_id = (req, resp) => resp.json(req.book);
+  const get_by_id = (req, resp) => {
+    const book = req.book.toJSON();
+    book.links = {};
+    book.links.filter_by_title_matches_any_portion =
+      `http://${req.headers.host}/books?title=${book.title}`;
+
+    return resp.json(book);
+  };
 
   const put_by_id = (req, resp) => {
     const {body} = req;
