@@ -3,10 +3,13 @@ const book_schema = require('../models/Book').schema;
 
 function books_controller(Book) {
   const post = (req, resp) => {
+    if (!req.body.title) {
+      resp.status(400);
+      resp.send('The title is missing');
+    }
     const new_book = new Book(req.body);
-    console.log(`posted book ${new_book}`);
     new_book.save();
-    resp.status(201)
+    resp.status(201);
     return resp.send(new_book);
   };
 
