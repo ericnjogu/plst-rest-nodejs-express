@@ -3,11 +3,11 @@ require('should');
 const request = require('supertest');
 const mongoose = require('mongoose');
 
+process.env.ENV = 'test';
+
 const app = require('../app.js');
 const Book = mongoose.model('Book');
 const agent = request.agent(app);
-
-process.env.ENV = 'test';
 
 describe('book CRUD test', () => {
   it ('should post book and return with an additional _id prop', (done) => {
