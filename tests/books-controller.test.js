@@ -5,6 +5,7 @@ const books_controller = require('../controllers/books-controller');
 describe("books-controller tests", () => {
   describe('HTTP POST to /books/', () => {
     it ('should not allow a missing title', () => {
+      // this constructor function did not work when written in arrow syntax
       const book = function (book) {this.save = () => {}};
       const req = {
         body: {
